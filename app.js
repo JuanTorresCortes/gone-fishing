@@ -1,15 +1,16 @@
 const prompt = require("prompt-sync")({ sigint: true });
 
-let fishCaught = [{1:2}];
-let totalFishCaught = fishCaught.filter(item => item.status === '0').length;
-let totalPrizeMoney = 0;
-let totalFishWeight = 0;
+let fishCaught = [];
 let totalWorms = 6;
-let count = 0;
+let count = null;
 
 
 
+
+
+//this function creates a fish and adds 1 to the count 
 function createFish() {
+  count++;
 
   const descriptor = [
     "one eyed",
@@ -58,7 +59,7 @@ function createFish() {
     "communist",
     "unpredictable",
   ];
-  
+
   const fishTypes = [
     "▶︎ blowfish 🐡",
     "▶︎ Alligator Gar 🐠",
@@ -86,98 +87,182 @@ function createFish() {
     "▶︎ octopus 🐙",
     "▶︎ killer whale 🐳",
   ];
-    let descriptor1 = descriptor[Math.floor(Math.random() * descriptor.length)];
-    let descriptor2 = descriptor[Math.floor(Math.random() * descriptor.length)];
-    let description = `${descriptor1} ${descriptor2}`;
-    let fishName = fishTypes[Math.floor(Math.random() * fishTypes.length)];
-    let weight = Math.floor(Math.random() * (5 - 1 + 1) + 1); // The maximum is inclusive and the minimum is inclusive
-    let money = weight * 15;
+  let descriptor1 = descriptor[Math.floor(Math.random() * descriptor.length)];
+  let descriptor2 = descriptor[Math.floor(Math.random() * descriptor.length)];
+  let description = `${descriptor1} ${descriptor2}`;
+  let fishName = fishTypes[Math.floor(Math.random() * fishTypes.length)];
+  let weight = Math.floor(Math.random() * (5 - 1 + 1) + 1); // The maximum is inclusive and the minimum is inclusive
+  let money = weight * 15;
 
-    let fishItem = {description, fishName, weight, money}
+  let fishItem = { description, fishName, weight, money };
 
-    if(fishCaught.length === 0){
-      fishCaught.push(fishItem);
-      count++
-      myApp()
-    }else if(fishCaught.length > 0){
-      count++
-      catchOrRelease(fishItem);
-    }
-   
+  if (fishCaught.length === 0) {
+    fishCaught.push(fishItem);
+    myApp();
+  } else if (fishCaught.length > 0) {
+    catchOrRelease(fishItem);
+  }
 }
 
-function catchOrRelease(fishItem){
+// this function catches or releases fish 
+function catchOrRelease(fishItem) {
   console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊 GONE FISHING 🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
+  wormsLeft = totalWorms - count;
 
-  let tracker = (`(total worms left: ▶︎${totalWorms - count}◀︎), (total fish caught: ▶︎${totalFishCaught}◀︎), (total weight: ▶︎${totalFishWeight}◀︎), (total prize money: ▶︎${totalPrizeMoney}◀︎) `);
-  console.log(`${tracker}\n`);
+  let totalFishCaught = fishCaught.length;
 
-  console.log('=====================================================================================================\n')
-  console.log(`⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️`)
+let totalPrizeMoney = fishCaught.reduce(
+  (acc, currentFish) => {
+    return acc = currentFish.money;
+  },0
+);
+
+let totalFishWeight = fishCaught.reduce(
+  (acc, currentFish) => {
+    return acc + currentFish.weight;
+  },0
+)
+
+
+  
+    console.log(`(total worms left: ▶︎${wormsLeft}◀︎), (total fish caught: ▶︎${totalFishCaught}◀︎), (total weight: ▶︎${totalFishWeight}◀︎), (total prize money: ▶︎${totalPrizeMoney}◀︎) `);
+
+
+  console.log("=====================================================================================================\n");
+  console.log(
+    `⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️`);
   console.log(`          wow you caught a (${fishItem.description}) ${fishItem.fishName}`);
   console.log(`                        The weight = ${fishItem.weight}(lb)`);
   console.log(`                        the prize money = $${fishItem.money}`);
-  console.log(`⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️\n`)
-  console.log('=====================================================================================================\n')
+  console.log(
+    `⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️\n`
+  );
+  console.log("=====================================================================================================\n");
   console.log(`would you like to keep the  ${fishItem.fishName} ?\n`);
-  console.log(`keep in mind the weight limit, if you keep this fish your total weight will be ${totalFishWeight + fishItem.weight}(lb)\n`)
   console.log(`[c]atch or [r]elease?\n`);
   console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
-  let userInput = prompt('▶︎')
-  
-
-  if(userInput === 'c'){
+  let userInput = prompt("▶︎");
+     
+  if(userInput === "c" || userInput === "C") {
     fishCaught.push(fishItem);
-    count++;
     myApp();
-  }else if(userInput === 'r'){
-    count++;
-    myApp()
-  }
+  } else if (userInput === "r" || userInput === "R") {
+    myApp();
+  }else { catchOrRelease(fishItem)}  
 }
 
-function myApp() {
+/// main game
+function myApp() {  
   console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊 GONE FISHING 🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
-  let tracker = (`(total worms left: ▶︎${totalWorms - count}◀︎), (total fish caught: ▶︎${totalFishCaught}◀︎), (total weight: ▶︎${totalFishWeight}◀︎), (total prize money: ▶︎${totalPrizeMoney}◀︎) `);
-  console.log(`${tracker}\n`);
+  wormsLeft = totalWorms - count;
 
-  console.log('===========================================================================================\n')
+  let totalFishCaught = fishCaught.length;
 
-  if(fishCaught.length > 1){
-    for(const fish of fishCaught){
-      console.log(`${fish.description} ${fish.fishName}, weight = ${fish.weight}(lb), prize = $${fish.money}\n`)
+let totalPrizeMoney = fishCaught.reduce(
+  (acc, currentFish) => {
+    return acc = currentFish.money;
+  },0
+);
+
+let totalFishWeight = fishCaught.reduce(
+  (acc, currentFish) => {
+    return acc + currentFish.weight;
+  },0
+)
+
+  if (totalFishCaught.length !== 0) {
+    
+    console.log(`(total worms left: ▶︎${wormsLeft}◀︎), (total fish caught: ▶︎${totalFishCaught}◀︎), (total weight: ▶︎${totalFishWeight}◀︎), (total prize money: ▶︎${totalPrizeMoney}◀︎) `);
+  }
+
+  console.log("===========================================================================================\n");
+
+  for (let i = 0; i < fishCaught.length; i++) {
+    const currentFish = fishCaught[i];
+    console.log(`${currentFish.description} ${currentFish.fishName}, weight = ${currentFish.weight}(lb), prize = $${currentFish.money}\n`);
+  }
+
+  console.log("===========================================================================================\n");
+  wormsLeft = totalWorms - count;
+  if (wormsLeft === 0 || totalFishWeight >= 10){
+    endGame()
+  } else if (wormsLeft > 0) {
+    console.log(`▶︎ lets catch some more fish!! cast your line... [x]\n`);
+    console.log(`▶︎ Or you can quit while you're ahead... [Q]\n`)
+    console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
+
+    let userInput = prompt("▶︎");
+    if (userInput === "x" || userInput === "X") {
+      createFish();
+    } else if(userInput === 'q' || userInput === 'Q'){
+      endGame()
+    }
+     else if (userInput !== "x" || userInput !== "X" || userInput !== 'q' || userInput !== "Q" ) {
+      myApp();
     }
   }
-  
-  console.log('===========================================================================================\n')
-
-  if(totalWorms-count < 0){
-    console.log(`You have no worms left`)
-  }
-  console.log(`lets get some more!! cast your line.. [x]`);
-  let userInput = prompt('▶︎') 
-  if (userInput === 'x'){
-    createFish();
-  }else if (userInput !== 'x'){
-    myApp();
-  }
-
-  console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
 }
 
-start()
-
-function start(){
+ ///resets game or exits;
+function endGame(){
+  
   console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊 GONE FISHING 🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
+   
+    wormsLeft = totalWorms - count
+    let totalFishCaught = fishCaught.length;
 
-  if (totalFishWeight === 0 && totalPrizeMoney === 0 && totalWorms === 6) {
+    let totalPrizeMoney = fishCaught.reduce(
+    (acc, currentFish) => {
+      return acc = currentFish.money;
+      },0
+    );
+
+    let totalFishWeight = fishCaught.reduce(
+      (acc, currentFish) => {
+        return acc + currentFish.weight;
+      },0
+    )
+    console.log(`(total worms left: ▶︎${wormsLeft}◀︎), (total fish caught: ▶︎${totalFishCaught}◀︎), (total weight: ▶︎${totalFishWeight}◀︎), (total prize money: ▶︎$${totalPrizeMoney}◀︎) \n`);
+    console.log("=====================================================================================================\n");
+    if(wormsLeft === 0){
+      console.log(`You have no worms left!!!\n`)
+    }else if (totalFishWeight > 10){
+      console.log(`You have exceeded weight limit\n`)
+    }else { console.log(`good job you have made $${totalPrizeMoney} and stayed under the weight limit\n`)}
+   
+    console.log(`wold youu like to start a (New Game) or (Exit)\n`);
+    console.log(`[N]ew Game or [E]xit\n`)
+
+  console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
+  let userInput = prompt(`▶︎`)
+  if(userInput === 'n' || userInput === "N"){
+    start();
+  }else if (userInput === 'e' || userInput === "E"){
+    console.log(`Thanks for playing Good Bye!!!!`);
+  }  
+}
+
+
+start();
+
+// starts the game and creates first fish by prompting the player to cast line
+function start() {  
+   
+  console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊 GONE FISHING 🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
+    fishCaught = [];
+    totalFishWeight = 0;
+    totalPrizeMoney = 0;
+    count = 0;
     console.log(`You've gone fishing! Try to maximize the value of your caught fish. You only have
     six worms🪱  use them wisely and can catch at most 10 lbs of fish.\n`);
-    console.log(`Hook that warm and cast that line, lets see what you catch! Press [x]\n`)
+    console.log(`Hook that warm and cast that line, lets see what you catch! Press [x]\n`);
     console.log(`🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n`);
-    let firstCast = prompt(`▶︎`)
-      if(firstCast == 'x' || firstCast == 'X'){
-      createFish()
-      }else{start()}
-  }
+
+    let firstCast = prompt(`▶︎`);
+    if (firstCast == "x" || firstCast == "X") {
+      createFish();
+    } else {
+      start();
+    }
+  
 }
